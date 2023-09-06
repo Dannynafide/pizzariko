@@ -1,0 +1,26 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.reactUI
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.node
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+  db:
+    image: mongo
+    volumes:
+      - slack_db:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+    slack_db:

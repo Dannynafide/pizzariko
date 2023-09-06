@@ -1,0 +1,10 @@
+# Dockerfile for React client
+
+FROM node:20
+WORKDIR /pizzeriko-ui
+COPY ./package.json .
+RUN npm install
+COPY . .
+EXPOSE 3000
+
+CMD ["npm","start"]
