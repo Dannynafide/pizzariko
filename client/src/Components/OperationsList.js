@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import Button from "./Button";
+import Button from "./buttons/Button";
 
 export default function OperationsList({ operations }) {
   const navigate = useNavigate();

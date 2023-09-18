@@ -1,4 +1,4 @@
-export function createHrefFromID(urlBegining, dataFromId) {
+export function addHrefFromID(urlBegining, dataFromId) {
   if (Array.isArray(dataFromId)) {
     const newData = dataFromId.map((item) => {
       return {

@@ -1,15 +1,15 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import NavBar from "./Components/NavBar.js";
-import Ingredients from "./Pages/Ingredients.js";
-import OneIngredient from "./Pages/OneIngredient.js";
-import OneOperation from "./Pages/OneOperation.js";
-import OnePizza from "./Pages/OnePizza.js";
-import Operations from "./Pages/Operations.js";
-import Pizzas from "./Pages/Pizzas.js";
-import EditPizzas from "./Pages/admin/EditPizzas.js";
-const NoMatch = lazy(() => import("./Pages/NoMatch.js"));
+import NavBar from "./Components/NavBar";
+import Ingredients from "./Pages/Ingredients";
+import OneIngredient from "./Pages/OneIngredient";
+import OneOperation from "./Pages/OneOperation";
+import OnePizza from "./Pages/OnePizza";
+import Operations from "./Pages/Operations";
+import Pizzas from "./Pages/Pizzas";
+import EditPizzas from "./Pages/admin/Admin";
+const NoMatch = lazy(() => import("./Pages/NoMatch"));
 
 function App() {
   return (
