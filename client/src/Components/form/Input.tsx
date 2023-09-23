@@ -6,7 +6,7 @@ type TInput = {
 
 const Input = ({ register, defaultValue, name }: TInput) => {
   return (
-    <div className="relative h-10 w-full ">
+    <div className="relative h-10 w-72 min-w-[200px]">
       <input
         {...register}
         className="peer h-full w-full rounded-[7px] border border-gray-500 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-gray-500 placeholder-shown:border-t-gray-500 focus:border-2 focus:border-gray-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"

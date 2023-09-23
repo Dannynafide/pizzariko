@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../../Components/buttons/Button";
-import Input from "../../Components/inputs/Input";
+import Input from "../../Components/form/Input";
 import { useApiAdmin } from "../../hooks/useApiAdmin";
 import { create as createOperation } from "../../services/operations/create";
 import { get as getOperation } from "../../services/operations/get";
