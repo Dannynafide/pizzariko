@@ -4,8 +4,8 @@ import Button from "../../../Components/buttons/Button";
 import Input from "../../../Components/form/Input";
 import Select from "../../../Components/form/Select";
 import { useApiAdmin } from "../../../hooks/useApiAdmin";
-import { create } from "../../../services/ingredients/create";
-import { getAll } from "../../../services/operations/getAll";
+import { create as createIngredient } from "../../../services/ingredients/create";
+import { getAll as getAllOperations } from "../../../services/operations/getAll";
 import { Operation } from "../../../types/Operation";
 
 interface IFormInputs {
@@ -15,9 +15,9 @@ interface IFormInputs {
 
 export default function AddNew({ closePanel, refreshData }: any) {
   const { handleSubmit, register } = useForm<IFormInputs>();
-  const [operations, isLoadingOper, isErrorOper] = useApiAdmin<Operation[]>(
-    () => getAll()
-  );
+  const [allOperations, isLoadingOperations, isErrorOperations] = useApiAdmin<
+    Operation[]
+  >(() => getAllOperations());
 
   const onSubmit: SubmitHandler<IFormInputs> = (body) => {
     const newBody = {
@@ -25,7 +25,7 @@ export default function AddNew({ closePanel, refreshData }: any) {
       operation: body.operationID || null,
     };
 
-    create(newBody)
+    createIngredient(newBody)
       .then((response) => response.json())
       .then(() => {
         refreshData();
@@ -35,35 +35,34 @@ export default function AddNew({ closePanel, refreshData }: any) {
       });
   };
 
+  if (isLoadingOperations) return <div>Loading...</div>;
+  if (!allOperations || isErrorOperations) return <div>Error</div>;
+
   return (
     <div className="mt-5 mb-5 p-5 border-gray-500 border-b border-t transition duration-300 ease-in-out hover:bg-neutral-100">
-      <p className="font-semibold">Panel for adding a new operation</p>
-      <br />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <Input
-            register={{ ...register("name") }}
-            defaultValue=""
-            name="Operation name"
-          />
-          <br />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <p className="font-semibold">Panel for adding a new ingredient</p>
 
-          <Select register={{ ...register("operationID") }} name="Operation">
-            <option value="">Select...</option>
-            {operations?.map((operation: Operation) => (
-              <option key={operation.id} value={operation.id}>
-                {operation.name}
-              </option>
-            ))}
-          </Select>
+        <Input
+          register={{ ...register("name") }}
+          defaultValue=""
+          name="Operation name"
+        />
 
-          <br />
-          <div>
-            <Button className="mr-5" onClick={closePanel}>
-              Close
-            </Button>
-            <Button type="submit">Create</Button>
-          </div>
+        <Select register={{ ...register("operationID") }} name="Operation">
+          <option value="">Select...</option>
+          {allOperations?.map((operation: Operation) => (
+            <option key={operation.id} value={operation.id}>
+              {operation.name}
+            </option>
+          ))}
+        </Select>
+
+        <div className="mt-5">
+          <Button className="mr-5" onClick={closePanel}>
+            Close
+          </Button>
+          <Button type="submit">Create</Button>
         </div>
       </form>
     </div>

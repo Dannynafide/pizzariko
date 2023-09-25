@@ -96,7 +96,7 @@ router.put("/:id", async function (req, res) {
 
   const oldPizza = await Pizza.findOne({ _id });
   const oldIngredients = oldPizza.ingredients;
-  const oldOperations = oldPizza.ingredients;
+  const oldOperations = oldPizza.operations;
 
   Object.assign(oldPizza, pizza);
   const newPizza = await oldPizza.save();

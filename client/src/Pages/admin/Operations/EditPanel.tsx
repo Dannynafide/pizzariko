@@ -2,44 +2,46 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../../../Components/buttons/Button";
 import Input from "../../../Components/form/Input";
-import Select from "../../../Components/form/Select";
 import { useApiAdmin } from "../../../hooks/useApiAdmin";
-import { get as getIngredient } from "../../../services/ingredients/get";
-import { update as updateIngredient } from "../../../services/ingredients/update";
-import { getAll as getAllOperations } from "../../../services/operations/getAll";
+import { getAll as getAllIngredients } from "../../../services/ingredients/getAll";
+import { get as getOperation } from "../../../services/operations/get";
+import { getAll as getAllPizzas } from "../../../services/pizzas/getAll";
+import { update } from "../../../services/pizzas/update";
 import { Ingredient } from "../../../types/Ingredient";
 import { Operation } from "../../../types/Operation";
 import { Pizza } from "../../../types/Pizza";
 
 interface IFormInputs {
   name: string;
-  operationID: string;
+  pizzas: Array<string>;
+  ingredients: Array<string>;
 }
 
 export default function EditPanel({
-  ingredientID,
+  operationID,
   closeEditPanel,
   updateData,
 }: any): React.ReactElement {
-  const [ingredient, isLoading, isError] = useApiAdmin<Ingredient>(() =>
-    getIngredient(ingredientID)
+  const [operation, isLoading, isError] = useApiAdmin<Operation>(() =>
+    getOperation(operationID)
   );
 
-  const [allOperations, isLoadingOperations, isErrorOperations] = useApiAdmin<
-    Operation[]
-  >(() => getAllOperations());
+  const [allIngredients, isLoadingIngredients, isErrorIngredients] =
+    useApiAdmin<Ingredient[]>(() => getAllIngredients());
+  const [allPizzas, isLoadingPizzas, isErrorPizzas] = useApiAdmin<Pizza[]>(() =>
+    getAllPizzas()
+  );
 
-  const { handleSubmit, register } = useForm<IFormInputs>();
+  const { handleSubmit, reset, register } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = (body) => {
     const newBody = {
       name: body.name,
-      operation: body.operationID || null,
     };
 
-    updateIngredient(ingredientID, newBody)
+    update(operationID, newBody)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: Operation) => {
         updateData(data);
       })
       .finally(() => {
@@ -48,15 +50,22 @@ export default function EditPanel({
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (!ingredient || isError) return <div>Error</div>;
+  if (!operation || isError) return <div>Error</div>;
 
-  if (isLoadingOperations) return <div>Loading...</div>;
-  if (!allOperations || isErrorOperations) return <div>Error</div>;
+  if (isLoadingIngredients) return <div>Loading...</div>;
+  if (!allIngredients || isErrorIngredients) return <div>Error</div>;
+
+  if (isLoadingPizzas) return <div>Loading...</div>;
+  if (!allPizzas || isErrorPizzas) return <div>Error</div>;
 
   const ingredientNames = Array.from(
-    ingredient.pizzas,
-    (x: Pizza) => x.name
+    operation.ingredients,
+    (x: Ingredient) => x.name
   ).join(", ");
+
+  const pizzaNames = Array.from(operation.pizzas, (x: Pizza) => x.name).join(
+    ", "
+  );
 
   return (
     <div>
@@ -68,31 +77,23 @@ export default function EditPanel({
           <span className="my-4 mr-1 text-sm font-semibold leading-6 text-gray-900">
             ID:
           </span>
-          {ingredient.id}
+          {operation.id}
         </div>
 
         <Input
           register={{ ...register("name") }}
-          defaultValue={ingredient.name}
+          defaultValue={operation.name}
           name="Operation name"
         />
 
-        <Select
-          register={{ ...register("operationID") }}
-          defaultValue={ingredient.operation?.id}
-          name="Operation"
-        >
-          <option value="">Select...</option>
-          {allOperations?.map((operation: Operation) => (
-            <option key={operation.id} value={operation.id}>
-              {operation.name}
-            </option>
-          ))}
-        </Select>
+        <div>
+          <span className="font-semibold">Ingredients: </span>
+          {ingredientNames}
+        </div>
 
         <div>
           <span className="font-semibold">Pizzas: </span>
-          {ingredientNames}
+          {pizzaNames}
         </div>
 
         <div className="mt-5 flex gap-5">

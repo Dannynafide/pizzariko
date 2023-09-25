@@ -1,20 +1,18 @@
 import { useState } from "react";
-
 import Button from "../../../Components/buttons/Button";
 import { useApiAdmin } from "../../../hooks/useApiAdmin";
-import { getAll as getAllIngredients } from "../../../services/ingredients/getAll";
-import { Ingredient } from "../../../types/Ingredient";
-import "../styles.css";
+import { getAll } from "../../../services/pizzas/getAll";
+import { Pizza } from "../../../types/Pizza";
 import AddNew from "./AddNew";
 import Row from "./Row";
 
-export default function Ingredients() {
-  const [data, isLoading, isError, request, updateData] =
-    useApiAdmin<Ingredient[]>(getAllIngredients);
+export default function Pizzas() {
+  const [data, isLoading, isError, refreshData, updateData] =
+    useApiAdmin<Pizza[]>(getAll);
   const [showPanel, setShowPanel] = useState(false);
 
-  if (isError) return <p>Error</p>;
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <div className="min-w-full text-left text-sm font-light">
@@ -24,11 +22,14 @@ export default function Ingredients() {
             setShowPanel(true);
           }}
         >
-          Add new ingredient
+          Create a new pizza
         </Button>
       )}
       {showPanel && (
-        <AddNew closePanel={() => setShowPanel(false)} refreshData={request} />
+        <AddNew
+          closePanel={() => setShowPanel(false)}
+          refreshData={refreshData}
+        />
       )}
 
       <table>
@@ -42,15 +43,15 @@ export default function Ingredients() {
         </thead>
         <tbody>
           {data &&
-            data.map((ingredient, index) => (
+            data.map((pizza, index) => (
               <tr
-                key={ingredient.id}
+                key={pizza.id}
                 className="transition duration-300 ease-in-out hover:bg-neutral-200"
               >
                 <td className="font-semibold px-4 py-4">{index}</td>
                 <Row
-                  data={ingredient}
-                  refreshData={request}
+                  data={pizza}
+                  refreshData={refreshData}
                   updateData={updateData}
                 />
               </tr>

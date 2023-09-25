@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import Button from "../../Components/buttons/Button";
-import Input from "../../Components/form/Input";
-import { useApiAdmin } from "../../hooks/useApiAdmin";
-import { create as createOperation } from "../../services/operations/create";
-import { get as getOperation } from "../../services/operations/get";
-import { getAll as getAllOperations } from "../../services/operations/getAll";
-import { remove as removeOperation } from "../../services/operations/remove";
-import { update as updateOperation } from "../../services/operations/update";
-import { Operation } from "../../types/Operation";
-import { Pizza } from "../../types/Pizza";
+import Button from "../../../Components/buttons/Button";
+import Input from "../../../Components/form/Input";
+import { useApiAdmin } from "../../../hooks/useApiAdmin";
+import { create as createOperation } from "../../../services/operations/create";
+import { get as getOperation } from "../../../services/operations/get";
+import { getAll as getAllOperations } from "../../../services/operations/getAll";
+import { remove as removeOperation } from "../../../services/operations/remove";
+import { update as updateOperation } from "../../../services/operations/update";
+import { Operation } from "../../../types/Operation";
+import { Pizza } from "../../../types/Pizza";
 
 function Operations() {
   const [data, isLoading, isError, request, updateData] =

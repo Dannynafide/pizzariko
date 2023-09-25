@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import Button from "../../../Components/buttons/Button";
-import { remove as removeIngredient } from "../../../services/ingredients/remove";
-import { Ingredient } from "../../../types/Ingredient";
+import { remove as removeOperations } from "../../../services/operations/remove";
+import { Operation } from "../../../types/Operation";
 import { confirmAction } from "../../../utils/confirmAction";
 import "../styles.css";
 import EditPanel from "./EditPanel";
 
 interface Props {
-  data: Ingredient;
+  data: Operation;
   refreshData: () => void;
   updateData: (item: object) => void;
 }
@@ -19,10 +19,10 @@ export default function Row({ data, refreshData, updateData }: Props) {
   const deleteIngredient = () => {
     if (
       confirmAction(
-        `Confirm deleting the ingredient and all associations. ID: ${data.id}, Name: ${data.name}`
+        `Confirm deleting the operation and all associations. ID: ${data.id}, Name: ${data.name}`
       )
     ) {
-      removeIngredient(data.id).finally(() => {
+      removeOperations(data.id).finally(() => {
         refreshData();
       });
     }
@@ -33,7 +33,7 @@ export default function Row({ data, refreshData, updateData }: Props) {
       <>
         <td colSpan={3}>
           <EditPanel
-            ingredientID={data.id}
+            operationID={data.id}
             closeEditPanel={() => setEditPanel(false)}
             updateData={updateData}
           />
