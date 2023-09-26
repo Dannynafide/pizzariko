@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import NavBar from "./Components/NavBar";
 import Ingredients from "./Pages/Ingredients";
@@ -30,6 +30,10 @@ function App() {
           <Route path={routes.operation} element={<OneOperation />} />
 
           <Route path={routes.admin} element={<Admin />}>
+            <Route
+              index
+              element={<Navigate to={routes.adminPizzas} replace />}
+            />
             <Route path={routes.adminPizzas} element={<AdminPizzas />} />
             <Route
               path={routes.adminIngredients}

@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, redirectDocument } from "react-router-dom";
 
+import { useEffect } from "react";
 import { routes } from "../../routes/index";
 import MainTemplate from "../../templates/MainTemplate/MainTemplate";
 
@@ -17,22 +18,24 @@ const Admin = () => {
 
   return (
     <MainTemplate title="Admin panel">
-      <ul className="flex border-b mb-4">
-        {navLinks.map((link) => (
-          <li className="mr-1" key={link.to}>
-            <NavLink
-              to={link.to}
-              className={({ isActive }) =>
-                isActive ? classActive : classNormal
-              }
-            >
-              {link.title}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <ul className="flex border-b mb-4">
+          {navLinks.map((link) => (
+            <li className="mr-1" key={link.to}>
+              <NavLink
+                to={link.to}
+                className={({ isActive }) =>
+                  isActive ? classActive : classNormal
+                }
+              >
+                {link.title}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
-      <Outlet />
+        <Outlet />
+      </div>
     </MainTemplate>
   );
 };

@@ -3,9 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../Components/buttons/Button";
 import Input from "../../../Components/form/Input";
 import { useApiAdmin } from "../../../hooks/useApiAdmin";
-import { getAll as getAllIngredients } from "../../../services/ingredients/getAll";
 import { get as getOperation } from "../../../services/operations/get";
-import { getAll as getAllPizzas } from "../../../services/pizzas/getAll";
 import { update } from "../../../services/pizzas/update";
 import { Ingredient } from "../../../types/Ingredient";
 import { Operation } from "../../../types/Operation";
@@ -24,12 +22,6 @@ export default function EditPanel({
 }: any): React.ReactElement {
   const [operation, isLoading, isError] = useApiAdmin<Operation>(() =>
     getOperation(operationID)
-  );
-
-  const [allIngredients, isLoadingIngredients, isErrorIngredients] =
-    useApiAdmin<Ingredient[]>(() => getAllIngredients());
-  const [allPizzas, isLoadingPizzas, isErrorPizzas] = useApiAdmin<Pizza[]>(() =>
-    getAllPizzas()
   );
 
   const { handleSubmit, reset, register } = useForm<IFormInputs>();
@@ -51,12 +43,6 @@ export default function EditPanel({
 
   if (isLoading) return <div>Loading...</div>;
   if (!operation || isError) return <div>Error</div>;
-
-  if (isLoadingIngredients) return <div>Loading...</div>;
-  if (!allIngredients || isErrorIngredients) return <div>Error</div>;
-
-  if (isLoadingPizzas) return <div>Loading...</div>;
-  if (!allPizzas || isErrorPizzas) return <div>Error</div>;
 
   const ingredientNames = Array.from(
     operation.ingredients,
