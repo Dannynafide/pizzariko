@@ -1,6 +1,6 @@
 import IngredientsList from "../Components/IngredientsList";
 import { useApi } from "../hooks/useApi";
-import { fetchIngredients } from "../services/ingredients";
+import { getAll as getAllIngredients } from "../services/ingredients/getAll";
 import MainTemplate from "../templates/MainTemplate/MainTemplate";
 import { Ingredient } from "../types/Ingredient";
 
@@ -9,7 +9,7 @@ function Ingredients() {
     data: ingredients,
     isLoading,
     isError,
-  } = useApi<Ingredient[]>(fetchIngredients);
+  } = useApi<Ingredient[]>(getAllIngredients);
 
   if (isError) {
     return (

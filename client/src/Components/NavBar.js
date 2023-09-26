@@ -2,6 +2,7 @@ import { Dialog, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { routes } from "../routes";
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,23 +32,29 @@ export default function NavBar() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <NavLink
-            to="/"
+            to={routes.pizzas}
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Home
           </NavLink>
 
           <NavLink
-            to="/ingredients"
+            to={routes.ingredients}
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Ingredients
           </NavLink>
           <NavLink
-            to="/operations"
+            to={routes.operations}
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Operations
+          </NavLink>
+          <NavLink
+            to={routes.admin}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Admin
           </NavLink>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end"></div>

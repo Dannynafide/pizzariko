@@ -1,21 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import BackButton from "../Components/buttons/BackButton";
 import IngredientsList from "../Components/IngredientsList";
 import OperationList from "../Components/OperationsList";
+import BackButton from "../Components/buttons/BackButton";
 import { useApi } from "../hooks/useApi";
-import { fetchPizza } from "../services/pizzas";
+import { get as getPizza } from "../services/pizzas/get";
 import MainTemplate from "../templates/MainTemplate/MainTemplate";
 import { Pizza } from "../types/Pizza";
 
 function Home() {
   const params = useParams();
   const id = params.id!;
-  const {
-    data: pizza,
-    isLoading,
-    isError,
-  } = useApi<Pizza>(() => fetchPizza(id));
+  const { data: pizza, isLoading, isError } = useApi<Pizza>(() => getPizza(id));
   const navigate = useNavigate();
 
   if (isError) {

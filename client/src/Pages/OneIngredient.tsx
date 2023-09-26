@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import BackButton from "../Components/buttons/BackButton";
 import OperationList from "../Components/OperationsList";
 import PizzasList from "../Components/PizzasList";
+import BackButton from "../Components/buttons/BackButton";
 import { useApi } from "../hooks/useApi";
-import { fetchIngredient } from "../services/ingredients";
+import { get as getIngredient } from "../services/ingredients/get";
 import MainTemplate from "../templates/MainTemplate/MainTemplate";
 import { Ingredient } from "../types/Ingredient";
 
@@ -15,7 +15,7 @@ function OneIngredient() {
     data: ingredient,
     isLoading,
     isError,
-  } = useApi<Ingredient>(() => fetchIngredient(id));
+  } = useApi<Ingredient>(() => getIngredient(id));
   const navigate = useNavigate();
 
   if (isError) {
